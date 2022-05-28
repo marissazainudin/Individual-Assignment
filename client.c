@@ -42,12 +42,12 @@ int main()
 
 	if (connect(sock_desc, (STAD*)&servaddr, sizeof(servaddr)) != 0) 
 	{
-		printf("Connection to server failed \n") ;
+		printf("Connection to server: failed \n") ;
 		exit(0) ;
 	}
        else
 	{
-		printf("Connection to server is successful \n") ;
+		printf("Connection to server: successful \n") ;
 	}
 	func(sock_desc) ;
 
