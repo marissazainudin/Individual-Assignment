@@ -23,31 +23,30 @@ pthread_mutex_t quoteLock=PTHREAD_MUTEX_INITIALIZER;
 pthread_t checkForNewDayThread, connectionHandlerThread;
 
     
-
+//link to quotes file
 int line_no(const char* file)
 {
     int count = 0 ;
-	int currentChar ;
+    int currentChar ;
     FILE* fds = fopen(file, "r") ;
 	
     if(fds==NULL)
 	{
-		perror("Error opening the quotes file") ;
+		perror("Error to open quotes file") ;
 		exit(EXIT_FAILURE) ;
     }
     while(true)
-	{
+      {
         currentChar = fgetc(fds) ;
-		
         switch (currentChar)
-		{
+	{
             case '\n':
-			{
+	    {
                 count++ ;
                 break ;
             }
             case EOF:
-			{
+	    {
                 fclose(fds) ;
                 return count ;
             }
@@ -56,30 +55,32 @@ int line_no(const char* file)
         }
 	}
 }
-
+// to search for quotes file
+// to send quotes to buffer address
 char* quote_read(const char* filePath)
 {
 	int quotes_no=line_no(filePath) ;
-	int lineNumberOfQOTD=rand()%quotes_no ;
-	int lineCounter=0 ;
+	int lineNumOfQOTD=rand()%quotes_no ;
+	int lineCount=0 ;
 	char* lineptr=NULL ; 
-	size_t n=0; 
+	size_t n=0;
 	FILE* fds=fopen(filePath, "r") ;
-	
+
     if(fds==NULL)
 	{
-        perror("Error opening the quotes file") ;
+        perror("Error to open quotes file") ;
         exit(EXIT_FAILURE) ;
     }
-   while(lineCounter<lineNumberOfQOTD)
+   while(lineCount<lineNumOfQOTD)
 	{ 
-		if(fgetc(fds)=='\n') lineCounter++ ;
+		if(fgetc(fds)=='\n') lineCount++ ;
 	}
     getline(&lineptr, &n, fds) ; 
     fclose(fds) ;
     return lineptr ;
 }
 
+//handle connection
 void * connection(void* port_ptr)
 {
     struct sockaddr_in address ;
@@ -87,12 +88,13 @@ void * connection(void* port_ptr)
 
     free(port_ptr) ;
 
+//create socket file
     if ((server_fds = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
         perror("socket failed") ;
         exit(EXIT_FAILURE) ;
     }
-
+//assign ip and port to 1717
     if (setsockopt(server_fds, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))==-1)
     {
         perror("setsockopt") ;
@@ -167,9 +169,9 @@ int main(int argc, char const *argv[])
 
     }
 
-	printf("Username is %s", getlogin()) ;
+	printf("Username : %s", getlogin()) ;
 	printf("\n") ;
-	printf("The quotes file contains %i quotes\n", line_no(gtQOTD)) ;
+	printf("Quotes file contains %i quotes\n", line_no(gtQOTD)) ;
     srand(time1) ; 
     QOTD = quote_read(gtQOTD) ; 
     connection(port) ;
