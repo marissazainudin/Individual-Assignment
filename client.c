@@ -32,7 +32,7 @@ int main()
 	sock_desc = socket(AF_INET, SOCK_STREAM, 0) ;
 	if (sock_desc == -1) 
 	{
-		printf("Creating a socket failed :(\n") ;
+		printf("Creating a socket failed \n") ;
 		exit(0) ;
 	}
 
@@ -42,12 +42,12 @@ int main()
 
 	if (connect(sock_desc, (STAD*)&servaddr, sizeof(servaddr)) != 0) 
 	{
-		printf("Connection to server failed :(\n") ;
+		printf("Connection to server failed \n") ;
 		exit(0) ;
 	}
-else
+       else
 	{
-		printf("Connection to server was successful :)\n") ;
+		printf("Connection to server is successful \n") ;
 	}
 	func(sock_desc) ;
 
