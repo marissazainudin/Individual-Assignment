@@ -151,7 +151,7 @@ int main(int argc, char const *argv[])
         case 1:
 		{ 
             *port=1717 ;
-            gtQOTD=strdup("q.txt") ;
+            gtQOTD=strdup("quotes.txt") ;
             break ;
         }
         case 3:
