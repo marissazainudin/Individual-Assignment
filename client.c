@@ -14,7 +14,7 @@ void func(int sock_desc)
 	char buff[MAX] ;
 	int a ;
 	bzero(buff, sizeof(buff)) ;
-	printf("Text to server : ") ;
+	printf("Send your message to server: ") ;
 	a = 0 ;
 	if((buff[a++] = getchar()) != '\n')
 	{
@@ -32,24 +32,25 @@ int main()
 	sock_desc = socket(AF_INET, SOCK_STREAM, 0) ;
 	if (sock_desc == -1) 
 	{
-		printf("Creating a socket failed \n") ;
+		printf("Fail to create socket \n") ;
 		exit(0) ;
 	}
-
+        //Assigning IP and PORT
 	servaddr.sin_family = AF_INET ;
-	servaddr.sin_addr.s_addr = inet_addr("192.168.56.103") ;
+	servaddr.sin_addr.s_addr = inet_addr("192.168.56.105") ;
 	servaddr.sin_port = htons(PORT) ;
-
+        
+        //to connect client socket to server socket
 	if (connect(sock_desc, (STAD*)&servaddr, sizeof(servaddr)) != 0) 
 	{
 		printf("Connection to server: failed \n") ;
 		exit(0) ;
 	}
-       else
+        else
 	{
 		printf("Connection to server: successful \n") ;
 	}
-	func(sock_desc) ;
 
-	close(sock_desc) ;
+        func(sock_desc) ;
+	close(sock_desc) ; // socket close
 }

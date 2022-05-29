@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <errno.h>
 
-//to handle error 
+//to handle error
 #define handle_error_en(en, msg) \
                do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
 #define handle_error(msg) \
@@ -22,24 +22,23 @@ const char *gtQOTD;
 pthread_mutex_t quoteLock=PTHREAD_MUTEX_INITIALIZER;
 pthread_t checkForNewDayThread, connectionHandlerThread;
 
-    
 //link to quotes file
 int line_no(const char* file)
 {
     int count = 0 ;
     int currentChar ;
     FILE* fds = fopen(file, "r") ;
-	
+
     if(fds==NULL)
 	{
 		perror("Error to open quotes file") ;
 		exit(EXIT_FAILURE) ;
-    }
+        }
     while(true)
       {
         currentChar = fgetc(fds) ;
         switch (currentChar)
-	{
+      {
             case '\n':
 	    {
                 count++ ;
@@ -62,7 +61,7 @@ char* quote_read(const char* filePath)
 	int quotes_no=line_no(filePath) ;
 	int lineNumOfQOTD=rand()%quotes_no ;
 	int lineCount=0 ;
-	char* lineptr=NULL ; 
+	char* lineptr=NULL ;
 	size_t n=0;
 	FILE* fds=fopen(filePath, "r") ;
 
@@ -72,10 +71,10 @@ char* quote_read(const char* filePath)
         exit(EXIT_FAILURE) ;
     }
    while(lineCount<lineNumOfQOTD)
-	{ 
+	{
 		if(fgetc(fds)=='\n') lineCount++ ;
 	}
-    getline(&lineptr, &n, fds) ; 
+    getline(&lineptr, &n, fds) ;
     fclose(fds) ;
     return lineptr ;
 }
@@ -115,7 +114,7 @@ void * connection(void* port_ptr)
         exit(EXIT_FAILURE) ;
     }
 
-    printf("Listening on port %i\n", port);
+    printf("Bind on port %i\n", port);
 
     while(1)
 	{ 
@@ -137,7 +136,7 @@ int main(int argc, char const *argv[])
     int* port=malloc(sizeof(int)) ;
 
     if(port==NULL)
-	{
+    {
 		perror("Couldn't allocate memory to store listening port") ;
 		exit(EXIT_FAILURE) ;
     }
@@ -153,13 +152,13 @@ int main(int argc, char const *argv[])
             *port=1717 ;
             gtQOTD=strdup("quotes.txt") ;
             break ;
-        }
+                 }
         case 3:
 		{ 
             *port=atoi(argv[2]) ;
             gtQOTD=argv[1] ;
             break ;
-        }
+                 }
         default:
 		{
             fprintf(stderr,"Bad arguments\n") ;
